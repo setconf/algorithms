@@ -25,23 +25,24 @@ class GreedyAlgorithm {
      * There is a list of stations.
      * */
     List<String> findStations(Set<String> states, Map<String, Set<String>> stations) {
-        List<String> foundStations = new ArrayList<>();
+        List<String> finalStations = new ArrayList<>();
         while (!states.isEmpty()) {
-            int maxStatesCount = 0;
+            Set<String> statesCovered = new HashSet<>();
             String bestStation = null;
             for (Map.Entry<String, Set<String>> entry : stations.entrySet()) {
                 Set<String> stationCoverages = entry.getValue();
                 Set<String> covered = intersection(states, stationCoverages);
-                if (covered.size() > maxStatesCount) {
-                    maxStatesCount = covered.size();
+                if (covered.size() > statesCovered.size()) {
+                    statesCovered = covered;
                     bestStation = entry.getKey();
                 }
             }
-            foundStations.add(bestStation);
-            states.removeAll(stations.get(bestStation));
+            if (bestStation == null) continue;
+            finalStations.add(bestStation);
             stations.remove(bestStation);
+            states.removeIf(statesCovered::contains);
         }
-        return foundStations;
+        return finalStations;
     }
 
     private Set<String> intersection(Set<String> states, Set<String> stationCoverages) {
