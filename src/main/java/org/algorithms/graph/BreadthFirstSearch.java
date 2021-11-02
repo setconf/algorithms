@@ -24,13 +24,13 @@ public class BreadthFirstSearch {
      * */
     public String search(Map<String, List<String>> graph, String root, Predicate<String> searchCondition) {
         Queue<String> queue = new LinkedList<>(graph.get(root));
-        List<String> serched = new ArrayList<>();
+        List<String> searched = new ArrayList<>();
         while (!queue.isEmpty()) {
             String person = queue.poll();
-            if (serched.contains(person)) continue;
+            if (searched.contains(person)) continue;
             if (searchCondition.test(person)) return person;
             queue.addAll(graph.get(person));
-            serched.add(person);
+            searched.add(person);
         }
         return null;
     }
