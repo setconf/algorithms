@@ -1,9 +1,6 @@
 package org.algorithms.graph;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 import java.util.function.Predicate;
 
 /*
@@ -27,10 +24,13 @@ public class BreadthFirstSearch {
      * */
     public String search(Map<String, List<String>> graph, String root, Predicate<String> searchCondition) {
         Queue<String> queue = new LinkedList<>(graph.get(root));
+        List<String> serched = new ArrayList<>();
         while (!queue.isEmpty()) {
-            String node = queue.poll();
-            if (searchCondition.test(node)) return node;
-            queue.addAll(graph.get(node));
+            String person = queue.poll();
+            if (serched.contains(person)) continue;
+            if (searchCondition.test(person)) return person;
+            queue.addAll(graph.get(person));
+            serched.add(person);
         }
         return null;
     }
